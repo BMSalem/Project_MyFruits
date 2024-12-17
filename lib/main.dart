@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:fruits_classifier/screens/fruit_classifier.dart';
 import 'package:fruits_classifier/screens/home_screen.dart';
 import 'package:fruits_classifier/screens/onBoarding_screen.dart';
 import 'package:fruits_classifier/screens/signin_screen.dart';
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/signinScreen': (context) => SignInScreen(),
         '/signupScreen': (context) => SignUpScreen(),
         '/homeScreen': (context) => HomeScreen(),
+        'fruitsClassifier': (context) => FruitsClassifier(),
       },
     );
   }

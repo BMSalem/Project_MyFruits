@@ -10,15 +10,34 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final user = FirebaseAuth.instance.currentUser!; 
+  final user = FirebaseAuth.instance.currentUser!;
+
+  void navigateToFruitsClassifier() {
+    Navigator.of(context).pushNamed('fruitsClassifier');
+  }
+
+  // Fonction pour se déconnecter
+  void signOut() async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.of(context).pushReplacementNamed('/signinScreen'); // Redirection après déconnexion
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Labs",
-        style: TextStyle(color: Colors.white),
+        title: Text(
+          "Labs",
+          style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blueAccent,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: Colors.white),
+            tooltip: 'Sign Out',
+            onPressed: signOut,
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -32,16 +51,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Affichage de la photo de profil
                   CircleAvatar(
                     radius: 40,
                     backgroundImage: user.photoURL != null
                         ? NetworkImage(user.photoURL!)
-                        : AssetImage('images/avatar.jpg') as ImageProvider,
+                        : AssetImage('assets/images/avatar.jpg') as ImageProvider,
                     onBackgroundImageError: (_, __) => Icon(Icons.person, size: 80),
                   ),
                   SizedBox(height: 10),
-                  // Affichage du nom de l'utilisateur ou de l'email
                   Text(
                     user.displayName ?? user.email!,
                     style: TextStyle(
@@ -64,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: Icon(Icons.search, color: Colors.green),
               title: Text('Fruits Classifier'),
               onTap: () {
-                //navigateToFruitsClassifier();
+                navigateToFruitsClassifier();
               },
             ),
           ],
@@ -84,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: GoogleFonts.robotoCondensed(fontSize: 18),
             ),
           ],
-        ),  
+        ),
       ),
     );
   }
